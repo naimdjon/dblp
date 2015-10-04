@@ -1,4 +1,3 @@
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -10,7 +9,7 @@ public class Person {
     private static int maxPublCount = 0;
     private static int maxNameLength = 0;
     private static Map<String, Person> personMap = new HashMap<String, Person>(600000);
-    private static Set tmpSet = new HashSet(500);
+    private static Set<Person> tmpSet = new HashSet<Person>(500);
 
     private String name;
     private Set<String> nameParts;
@@ -71,7 +70,7 @@ public class Person {
     }
 
     static public Person searchPerson(String name) {
-        return (Person) personMap.get(name);
+        return personMap.get(name);
     }
 
     static public int numberOfPersons() {
@@ -91,8 +90,8 @@ public class Person {
                 continue;
             if (persArray.length == 0)
                 continue;
-            for (int i = 0; i < persArray.length; i++) {
-                pers = persArray[i];
+            for (Person aPersArray : persArray) {
+                pers = aPersArray;
                 if (pers == null)
                     continue;
                 if (pers.publs == null) {
@@ -116,16 +115,16 @@ public class Person {
                     authors = publ.getAuthors();
                     if (authors == null)
                         continue;
-                    for (int j = 0; j < authors.length; j++) {
-                        if (authors[j] == null)
+                    for (Person author : authors) {
+                        if (author == null)
                             continue;
-                        if (authors[j] == pers)
+                        if (author == pers)
                             continue;
-                        tmpSet.add(authors[j]);
+                        tmpSet.add(author);
                     }
                 }
             }
-            pers.coauthors = (Person[]) tmpSet.toArray(new Person[tmpSet.size()]);
+            pers.coauthors = tmpSet.toArray(new Person[tmpSet.size()]);
         }
     }
 
